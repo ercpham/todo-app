@@ -1,0 +1,23 @@
+{
+  "name": "todo-app",
+  "version": "1.0.0",
+  "description": "App to manage to-do lists in projects",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ercpham/todo-app.git"
+  },
+  "author": "Eric Pham",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ercpham/todo-app/issues"
+  },
+  "homepage": "https://github.com/ercpham/todo-app#readme",
+  "devDependencies": {
+    "webpack": "^4.44.2",
+    "webpack-cli": "^3.3.12"
+  }
+}
