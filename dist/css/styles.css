@@ -47,3 +47,60 @@ ul {
 #newProject:hover {
     background-color: green;
 }
+
+.fieldWrap {
+    display: flex;
+    justify-content: center;
+    border-style:none !important;
+    width: fill;
+    text-align: center;
+}
+
+label {
+    width: 30%;
+    text-align: right;
+    padding: 10px;
+    font-size: 20px;
+}
+
+input {
+    font-size: 20px;
+    width: 50%;
+}
+
+.form {
+    position: absolute;
+    background-color: white;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: auto;
+    width: 500px;
+}
+
+.form button {
+    position: relative;
+    margin: 10px 50%;
+    margin-bottom: 20px;
+    padding: 15px;
+    width: 100px;
+    font-size: 18px;
+    transform: translate(-50%, 0);
+}
+
+.close {
+    height: 20px;
+    width: 20px;
+    text-align: center !important;
+    padding: 4px 2px 0px 2px;
+    border-radius: 4px !important;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    font-family: sans-serif;
+}
+
+.close:hover {
+    background-color: red;
+    color: white;
+}

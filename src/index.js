@@ -1,5 +1,5 @@
 import {project, todoList, todoItem} from './todo.js';
-import {displayProject} from './dom.js';
+import {displayProject, displayNewListForm} from './dom.js';
 
 let newProject = project('Default Project');
 let newList = todoList('List 1', 'The first list in the project');
@@ -11,12 +11,11 @@ newProject.addList(list2);
 newProject.getList('List 2').addItem(todoItem("Wash the dishes"));
 newProject.getList('List 2').addItem(todoItem("Walk the Dog"));
 
-
-
 console.log(newProject.getList('List 1'));
 newProject.getList('List 1').addItem(newItem);
 newProject.getList('List 1').addItem(todoItem("Wash the car"));
 console.log(newProject.getList('List 1').listContents());
 
 displayProject(newProject);
+displayNewListForm();
 // alert("Here");
