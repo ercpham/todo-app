@@ -2,6 +2,23 @@ body {
     text-align: center;
 }
 
+button {
+    margin: 10px;
+    font-size: 20px;
+    background-color: white;
+    border-style: solid;
+    border-color: black;
+    border-width: 1px;
+    border-radius: 20px;
+    padding: 10px;
+
+}
+
+button:hover {
+    background-color: black;
+    color: white;
+}
+
 h1, h2, h3, p, li {
     font-size: 30px;
     padding: 20px;
@@ -9,6 +26,21 @@ h1, h2, h3, p, li {
 
 h1 {
     font-size: 50px;
+}
+
+li {
+    padding: 10px;
+    width: auto;
+    color: rgb(104, 104, 104);
+}
+
+li:hover {
+    color:black;
+}
+
+p {
+    font-size: 20px;
+    padding: 5px;
 }
 
 ul {
@@ -38,6 +70,7 @@ ul {
 #projects {
     display: flex;
     flex-direction: column;
+    height: fit-content;
 }
 
 #projects div {
@@ -46,6 +79,10 @@ ul {
 
 #newProject:hover {
     background-color: green;
+}
+
+#lists {
+    height: fit-content;
 }
 
 .fieldWrap {

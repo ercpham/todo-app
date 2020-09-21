@@ -1,18 +1,18 @@
 const project = (name) => {
-    let lists = [];
-    function addList(list){
-        lists.push(list);
+    let list;
+
+    function addList(newList){
+        list = newList;
     }
-    function getList(name){
-        let correctList;
-        lists.forEach((list) => {
-            if (list.name === name) {
-                correctList = list;
-            }
-        });
-        return correctList;
+
+    function getList(){
+        return list;
     }
-    return {name, lists, addList, getList};
+    
+    function addItem(item) {
+        list.addItem(item);
+    }
+    return {name, list, addList, getList, addItem};
 }
 
 const todoList = (name, description = "") => {
@@ -33,8 +33,8 @@ const todoList = (name, description = "") => {
     return {name, description, items, addItem, getItem, listContents};
 }
 
-const todoItem = (name, description = "", duedate = "", priority = "low") => {
-    return {name, description, duedate, priority};
+const todoItem = (name, description = "", duedate = "", priority = 0, complete = false) => {
+    return {name, description, duedate, priority, complete};
 }
 
 export {project, todoList, todoItem};
