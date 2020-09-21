@@ -1,18 +1,20 @@
-function displayProject(project) {
+let currentProject;
 
-    // Add new project tab
-    
+function setCurrentProject(project) {
+    currentProject = project;
+}
+
+function getCurrentProject() {
+    return currentProject
+}
+
+function displayProject(project) {
 
     // Display lists in the project
     let listContent = document.getElementById("lists");
 
     let listWrapper = document.createElement("div");
     listWrapper.setAttribute("id", `listwrap`);
-
-        // Create and append list header
-        //let listNames = document.createElement("h3");
-        //listNames.textContent = list.name;
-        //listWrapper.appendChild(listNames);
 
     // Create and append list contents
 
@@ -24,12 +26,6 @@ function displayProject(project) {
         bullet.textContent = item.name;
         bullets.appendChild(bullet);
     });
-
-        // Add button to add new list items
-    // let add = document.createElement("button");
-    // add.textContent = "Add new list item";
-    // add.addEventListener("click", displayNewListForm);
-    // listWrapper.appendChild(add);
 
     listWrapper.appendChild(bullets);
 
@@ -50,6 +46,8 @@ function addProjectTab(project) {
     newTab.addEventListener("click", () => {
         clearProject();
         displayProject(project);
+        setCurrentProject(project);
+        updateList(document.getElementById("listwrap"), project.getList());
     })
     projectDiv.prepend(newTab);
 }
@@ -69,7 +67,7 @@ function updateList(listWrapper, list) {
         else {
             bullets.prepend(bullet);
         }
-        //bullets.appendChild(bullet);
+
         bullet.addEventListener("click", () => {
             displayItemInfo(bullet, item);
         });
@@ -146,11 +144,39 @@ function displayNewListForm() {
         formWrapper.appendChild(fieldWrap);
     });
 
-    // let submitButton = document.createElement("button");
-    // submitButton.classList.add("formSubmit");
-    // submitButton.textContent = "Submit";
-    // submitButton.addEventListener("click", submit);
-    // formWrapper.appendChild(submitButton);
+    page.appendChild(formWrapper);
+}
+
+function displayNewProjectForm() {
+    let page = document.getElementById("content");
+    let formWrapper = document.createElement("div");
+    formWrapper.classList.add("form");
+    let itemAttributes = ["Name", "Description"];
+
+    let heading = document.createElement("h2");
+    heading.textContent = "New Project";
+    formWrapper.appendChild(heading);
+
+    let closeButton = document.createElement("div");
+    closeButton.classList.add("close");
+    closeButton.textContent = "X";
+
+    closeButton.addEventListener("click", closeForm);
+
+    formWrapper.appendChild(closeButton);
+
+    itemAttributes.forEach((attribute) => {
+        let fieldWrap = document.createElement("div");
+        fieldWrap.classList.add("fieldWrap");
+        let label = document.createElement("label");
+        let input = document.createElement("input");
+        label.textContent = `${attribute}: `;
+        input.setAttribute("type", "text");
+        input.setAttribute("id", `project${attribute.replace(/\s+/g, '').toLowerCase()}`);
+        fieldWrap.appendChild(label);
+        fieldWrap.appendChild(input);
+        formWrapper.appendChild(fieldWrap);
+    });
 
     page.appendChild(formWrapper);
 }
@@ -162,4 +188,5 @@ function closeForm() {
     parent.remove();
 }
 
-export {displayProject, displayNewListForm, updateList, addProjectTab};
+export {displayProject, displayNewListForm, updateList,
+     addProjectTab, setCurrentProject, getCurrentProject, displayNewProjectForm};

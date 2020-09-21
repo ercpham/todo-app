@@ -8,7 +8,7 @@ const project = (name) => {
     function getList(){
         return list;
     }
-    
+
     function addItem(item) {
         list.addItem(item);
     }
@@ -32,6 +32,7 @@ const todoList = (name, description = "") => {
     }
     return {name, description, items, addItem, getItem, listContents};
 }
+
 
 const todoItem = (name, description = "", duedate = "", priority = 0, complete = false) => {
     return {name, description, duedate, priority, complete};
