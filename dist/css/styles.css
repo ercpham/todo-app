@@ -63,7 +63,7 @@ ul {
 }
 
 .projectTab:hover {
-    background-color: black;
+    background-color: grey;
     color: white;
 }
 
@@ -139,5 +139,20 @@ input {
 
 .close:hover {
     background-color: red;
+    color: white;
+}
+
+.removebutton {
+    font-size: 15px;
+}
+
+.removebutton:hover {
+    font-size: 15px;
+    background-color: red;
+    color: white;
+}
+
+.selected {
+    background-color: black !important;
     color: white;
 }

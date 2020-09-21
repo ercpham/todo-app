@@ -1,5 +1,5 @@
 import {project, todoList, todoItem} from './todo.js';
-import {displayProject, displayNewListForm, updateList, addProjectTab, getCurrentProject, setCurrentProject, displayNewProjectForm} from './dom.js';
+import {displayProject, displayNewListForm, updateList, addProjectTab, getCurrentProject, setCurrentProject, displayNewProjectForm, removeProjectTab, closeForm} from './dom.js';
 
 let newProject = project('Default Project');
 let diffProject = project('New Project');
@@ -13,6 +13,7 @@ function submit(project) {
             document.getElementById("itempriority").value));
 
     updateList(document.getElementById("listwrap"), project.getList());
+    closeForm();
 }
 
 function associateForm(project) {
@@ -37,6 +38,7 @@ function openProjectForm() {
         let newProject = project(document.getElementById("projectname").value);
         newProject.addList(todoList("List"));
         addProjectTab(newProject);
+        closeForm();
     });
     formWrapper.appendChild(submitButton);
 }
@@ -46,19 +48,38 @@ let add = document.createElement("button");
 add.textContent = "Add new list item";
 
 add.addEventListener("click", () => {
-    associateForm(getCurrentProject());
+    if (getCurrentProject() !== null) {
+        if (!document.querySelector(".form"))
+        associateForm(getCurrentProject());
+    }
+    else {
+        alert("Please select a project to add to.");
+    }
 });
 list.appendChild(add);
+
+let remove = document.createElement("button");
+remove.textContent = "Remove project";
+remove.addEventListener("click", () => {
+    if (getCurrentProject() !== null) {
+        removeProjectTab(getCurrentProject());
+        setCurrentProject(null);
+    }
+    else {
+        alert("Please select a project before removing.");
+    }
+});
+list.appendChild(remove);
 
 newProject.addList(newList);
 addProjectTab(newProject);
 displayProject(newProject);
-setCurrentProject(newProject);
 
 diffProject.addList(list2);
 let newProjectButton = document.getElementById("newProject");
 newProjectButton.addEventListener("click", () => {
-    openProjectForm();
+    if (!document.querySelector(".form"))
+        openProjectForm();
 });
 
 

@@ -30,7 +30,11 @@ const todoList = (name, description = "") => {
         });
         return string;
     }
-    return {name, description, items, addItem, getItem, listContents};
+    function removeItem(name) {
+        let index = items.indexOf(name);
+        items.splice(index, 1);
+    }
+    return {name, description, items, addItem, getItem, listContents, removeItem};
 }
 
 

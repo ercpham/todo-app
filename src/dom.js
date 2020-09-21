@@ -1,11 +1,11 @@
-let currentProject;
+let currentProject = null;
 
 function setCurrentProject(project) {
     currentProject = project;
 }
 
 function getCurrentProject() {
-    return currentProject
+    return currentProject;
 }
 
 function displayProject(project) {
@@ -40,16 +40,32 @@ function addProjectTab(project) {
     let projectDiv = document.getElementById("projects");
     let newTab = document.createElement("div");
     newTab.classList.add("projectTab");
+    newTab.setAttribute("id", `tab_${project.name}`);
     let projName = document.createElement("h2");
     projName.textContent = project.name;
     newTab.appendChild(projName);
     newTab.addEventListener("click", () => {
+        clearSelected();
+        newTab.classList.add("selected");
         clearProject();
         displayProject(project);
         setCurrentProject(project);
         updateList(document.getElementById("listwrap"), project.getList());
     })
     projectDiv.prepend(newTab);
+}
+
+function clearSelected() {
+    let tabs = document.querySelectorAll(".projectTab");
+    tabs.forEach((tab) => tab.classList.remove("selected"));
+}
+
+function removeProjectTab(project) {
+    document.getElementById(`tab_${project.name}`).remove();
+    let listWrapper = document.getElementById("listwrap");
+    while (listWrapper.firstChild) {
+        listWrapper.removeChild(listWrapper.lastChild);
+    }
 }
 
 function updateList(listWrapper, list) {
@@ -104,12 +120,21 @@ function displayItemInfo(container, item) {
                 }
             }
         }
+        let removeButton = document.createElement("button");
+        removeButton.textContent = "Remove";
+        removeButton.classList.add("removebutton");
+        removeButton.addEventListener("click", () => {
+            currentProject.getList().removeItem(item.name);
+            container.remove();
+        });
+        container.appendChild(removeButton);
     }
     else {
         let info = container.querySelectorAll("p");
         info.forEach((i) => {
             i.remove();
         });
+        container.querySelector("button").remove();
     }
 }
 
@@ -189,4 +214,5 @@ function closeForm() {
 }
 
 export {displayProject, displayNewListForm, updateList,
-     addProjectTab, setCurrentProject, getCurrentProject, displayNewProjectForm};
+     addProjectTab, setCurrentProject, getCurrentProject, displayNewProjectForm,
+    removeProjectTab, closeForm};
