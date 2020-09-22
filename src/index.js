@@ -35,7 +35,8 @@ function openProjectForm() {
     submitButton.classList.add("formSubmit");
     submitButton.textContent = "Submit";
     submitButton.addEventListener("click", () => {
-        let newProject = project(document.getElementById("projectname").value);
+        let newProject = project(document.getElementById("projectname").value,
+                                document.getElementById("projectdescription").value);
         newProject.addList(todoList("List"));
         addProjectTab(newProject);
         closeForm();
@@ -74,6 +75,8 @@ list.appendChild(remove);
 newProject.addList(newList);
 addProjectTab(newProject);
 displayProject(newProject);
+setCurrentProject(newProject);
+
 
 diffProject.addList(list2);
 let newProjectButton = document.getElementById("newProject");

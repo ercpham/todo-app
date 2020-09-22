@@ -1,4 +1,4 @@
-const project = (name) => {
+const project = (name, description = "") => {
     let list;
 
     function addList(newList){
@@ -12,7 +12,7 @@ const project = (name) => {
     function addItem(item) {
         list.addItem(item);
     }
-    return {name, list, addList, getList, addItem};
+    return {name, description, list, addList, getList, addItem};
 }
 
 const todoList = (name, description = "") => {

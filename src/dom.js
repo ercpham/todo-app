@@ -1,14 +1,23 @@
-let currentProject = null;
+/**
+ * Contains the methods to manipulate the DOM of the to-do list program
+ */
 
+// The current project being focused on
+let currentProject = null;
 function setCurrentProject(project) {
     currentProject = project;
 }
-
 function getCurrentProject() {
     return currentProject;
 }
 
+/**
+ * Lists the contents of a given project inside the "lists" div
+ * 
+ * @param {project} project 
+ */
 function displayProject(project) {
+
 
     // Display lists in the project
     let listContent = document.getElementById("lists");
@@ -16,8 +25,15 @@ function displayProject(project) {
     let listWrapper = document.createElement("div");
     listWrapper.setAttribute("id", `listwrap`);
 
-    // Create and append list contents
+    let name = document.createElement("h2");
+    name.textContent = project.name;
+    listWrapper.append(name);
 
+    let description = document.createElement("h3");
+    description.textContent = project.description;
+    listWrapper.append(description);
+
+    // Create and append list contents
     let list = project.getList();
 
     let bullets = document.createElement("ul");
@@ -32,10 +48,18 @@ function displayProject(project) {
     listContent.prepend(listWrapper);
 }
 
+/**
+ * Removes the container for the to-do list tasks
+ */
 function clearProject() {
     document.getElementById("listwrap").remove();
 }
 
+/**
+ * Creates a new project tab
+ * 
+ * @param {project} project 
+ */
 function addProjectTab(project) {
     let projectDiv = document.getElementById("projects");
     let newTab = document.createElement("div");
@@ -50,16 +74,23 @@ function addProjectTab(project) {
         clearProject();
         displayProject(project);
         setCurrentProject(project);
-        updateList(document.getElementById("listwrap"), project.getList());
+        //updateList(document.getElementById("listwrap"), project.getList());
     })
     projectDiv.prepend(newTab);
 }
 
+/**
+ * Clears the selected CSS style from all the project tabs
+ */
 function clearSelected() {
     let tabs = document.querySelectorAll(".projectTab");
     tabs.forEach((tab) => tab.classList.remove("selected"));
 }
 
+/**
+ * Removes a project tab and clears the list.
+ * @param {project} project 
+ */
 function removeProjectTab(project) {
     document.getElementById(`tab_${project.name}`).remove();
     let listWrapper = document.getElementById("listwrap");
@@ -68,10 +99,14 @@ function removeProjectTab(project) {
     }
 }
 
+/**
+ * Fills the "lists" div with the relevant content
+ * 
+ * @param {div} listWrapper 
+ * @param {todoList} list 
+ */
 function updateList(listWrapper, list) {
-    while (listWrapper.firstChild) {
-        listWrapper.removeChild(listWrapper.lastChild);
-    }
+    listWrapper.querySelector("ul").remove();
     let bullets = document.createElement("ul");
     list.items.forEach((item) => {
         let bullet = document.createElement("li");
@@ -95,6 +130,13 @@ function updateList(listWrapper, list) {
     listWrapper.appendChild(bullets);
 }
 
+/**
+ * Toggles if the task has been complete, indicating completion with a
+ * line-through text decoration.
+ * 
+ * @param {li} container 
+ * @param {togoItem} item 
+ */
 function toggleCompletion(container, item) {
     if (item.complete) {
         item.complete = false;
@@ -107,6 +149,12 @@ function toggleCompletion(container, item) {
     return false;
 }
 
+/**
+ * Expands a list element to show more information about the item
+ * 
+ * @param {li} container 
+ * @param {togoItem} item 
+ */
 function displayItemInfo(container, item) {
     let properLabels = ["Description: ", "Due Date: ", "Priority: "];
     let index = 0;
@@ -138,11 +186,15 @@ function displayItemInfo(container, item) {
     }
 }
 
-function displayNewListForm() {
+/**
+ * Displays a form with text fields labeled the item attributes
+ * @param {array} itemAttributes 
+ * @param {string} idPrefix 
+ */
+function displayNewForm(itemAttributes, idPrefix) {
     let page = document.getElementById("content");
     let formWrapper = document.createElement("div");
     formWrapper.classList.add("form");
-    let itemAttributes = ["Name", "Description", "Due Date", "Priority"];
 
     let heading = document.createElement("h2");
     heading.textContent = "New List Item";
@@ -163,7 +215,7 @@ function displayNewListForm() {
         let input = document.createElement("input");
         label.textContent = `${attribute}: `;
         input.setAttribute("type", "text");
-        input.setAttribute("id", `item${attribute.replace(/\s+/g, '').toLowerCase()}`);
+        input.setAttribute("id", `${idPrefix}${attribute.replace(/\s+/g, '').toLowerCase()}`);
         fieldWrap.appendChild(label);
         fieldWrap.appendChild(input);
         formWrapper.appendChild(fieldWrap);
@@ -172,42 +224,23 @@ function displayNewListForm() {
     page.appendChild(formWrapper);
 }
 
+/**
+ * Displays the form to create a new item
+ */
+function displayNewListForm() {
+    displayNewForm(["Name", "Description", "Due Date", "Priority"], "item");
+}
+
+/**
+ * Displays the form to create a new project
+ */
 function displayNewProjectForm() {
-    let page = document.getElementById("content");
-    let formWrapper = document.createElement("div");
-    formWrapper.classList.add("form");
-    let itemAttributes = ["Name", "Description"];
-
-    let heading = document.createElement("h2");
-    heading.textContent = "New Project";
-    formWrapper.appendChild(heading);
-
-    let closeButton = document.createElement("div");
-    closeButton.classList.add("close");
-    closeButton.textContent = "X";
-
-    closeButton.addEventListener("click", closeForm);
-
-    formWrapper.appendChild(closeButton);
-
-    itemAttributes.forEach((attribute) => {
-        let fieldWrap = document.createElement("div");
-        fieldWrap.classList.add("fieldWrap");
-        let label = document.createElement("label");
-        let input = document.createElement("input");
-        label.textContent = `${attribute}: `;
-        input.setAttribute("type", "text");
-        input.setAttribute("id", `project${attribute.replace(/\s+/g, '').toLowerCase()}`);
-        fieldWrap.appendChild(label);
-        fieldWrap.appendChild(input);
-        formWrapper.appendChild(fieldWrap);
-    });
-
-    page.appendChild(formWrapper);
+    displayNewForm(["Name", "Description"], "project");
 }
 
-
-
+/**
+ * Closes any open form
+ */
 function closeForm() {
     let parent = document.querySelector(".form");
     parent.remove();
