@@ -6,6 +6,7 @@
 let currentProject = null;
 function setCurrentProject(project) {
     currentProject = project;
+    document.getElementById(`tab_${project.name}`).classList.add("selected");
 }
 function getCurrentProject() {
     return currentProject;
@@ -17,7 +18,6 @@ function getCurrentProject() {
  * @param {project} project 
  */
 function displayProject(project) {
-
 
     // Display lists in the project
     let listContent = document.getElementById("lists");
@@ -70,11 +70,11 @@ function addProjectTab(project) {
     newTab.appendChild(projName);
     newTab.addEventListener("click", () => {
         clearSelected();
-        newTab.classList.add("selected");
+        // newTab.classList.add("selected");
         clearProject();
         displayProject(project);
         setCurrentProject(project);
-        //updateList(document.getElementById("listwrap"), project.getList());
+        updateList(document.getElementById("listwrap"), project.getList());
     })
     projectDiv.prepend(newTab);
 }

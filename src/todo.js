@@ -1,3 +1,9 @@
+/**
+ * Creates a project object that has-a todoList
+ * 
+ * @param {string} name 
+ * @param {string} description 
+ */
 const project = (name, description = "") => {
     let list;
 
@@ -15,6 +21,12 @@ const project = (name, description = "") => {
     return {name, description, list, addList, getList, addItem};
 }
 
+/**
+ * Creates a todoList object that has-an array of todoItems
+ * 
+ * @param {string} name 
+ * @param {string} description 
+ */
 const todoList = (name, description = "") => {
     let items = [];
     function addItem(item) {
@@ -37,7 +49,15 @@ const todoList = (name, description = "") => {
     return {name, description, items, addItem, getItem, listContents, removeItem};
 }
 
-
+/**
+ * Returns an item with all the given properties
+ * 
+ * @param {string} name 
+ * @param {string} description 
+ * @param {string} duedate 
+ * @param {string} priority 
+ * @param {boolean} complete 
+ */
 const todoItem = (name, description = "", duedate = "", priority = 0, complete = false) => {
     return {name, description, duedate, priority, complete};
 }

@@ -1,11 +1,17 @@
 import {project, todoList, todoItem} from './todo.js';
 import {displayProject, displayNewListForm, updateList, addProjectTab, getCurrentProject, setCurrentProject, displayNewProjectForm, removeProjectTab, closeForm} from './dom.js';
 
+// Initialize the inital project
 let newProject = project('Default Project');
-let diffProject = project('New Project');
 let newList = todoList('List 1', 'The first list in the project');
-let list2 = todoList('List 2', 'The second list in the project')
+newProject.addList(newList);
 
+/**
+ * When the submit button is clicked an item is added to a project and
+ * the list is updated
+ * 
+ * @param {project} project 
+ */
 function submit(project) {
     project.addItem(todoItem(document.getElementById("itemname").value,
             document.getElementById("itemdescription").value,
@@ -16,6 +22,11 @@ function submit(project) {
     closeForm();
 }
 
+/**
+ * Creates a submit button associated with the correct project
+ * 
+ * @param {project} project 
+ */
 function associateForm(project) {
     displayNewListForm();
     let formWrapper = document.querySelector(".form");
@@ -28,6 +39,9 @@ function associateForm(project) {
     formWrapper.appendChild(submitButton);
 }
 
+/**
+ * Opens the form to create a new project
+ */
 function openProjectForm() {
     displayNewProjectForm();
     let formWrapper = document.querySelector(".form");
@@ -44,6 +58,7 @@ function openProjectForm() {
     formWrapper.appendChild(submitButton);
 }
 
+// Add a "new item" button with an event listener
 let list = document.getElementById("lists");
 let add = document.createElement("button");
 add.textContent = "Add new list item";
@@ -59,6 +74,7 @@ add.addEventListener("click", () => {
 });
 list.appendChild(add);
 
+// Add a "remove project" button with an event listener
 let remove = document.createElement("button");
 remove.textContent = "Remove project";
 remove.addEventListener("click", () => {
@@ -72,18 +88,14 @@ remove.addEventListener("click", () => {
 });
 list.appendChild(remove);
 
-newProject.addList(newList);
-addProjectTab(newProject);
-displayProject(newProject);
-setCurrentProject(newProject);
-
-
-diffProject.addList(list2);
+// Add a "new project" button with an event listener
 let newProjectButton = document.getElementById("newProject");
 newProjectButton.addEventListener("click", () => {
     if (!document.querySelector(".form"))
         openProjectForm();
 });
 
-
-// alert("Here");
+// Display the default project
+addProjectTab(newProject);
+displayProject(newProject);
+setCurrentProject(newProject);
