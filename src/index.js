@@ -1,5 +1,5 @@
 import {project, todoList, todoItem} from './todo.js';
-import {displayProject, displayNewListForm, updateList, addProjectTab, getCurrentProject, setCurrentProject, displayNewProjectForm, removeProjectTab, closeForm} from './dom.js';
+import {displayProject, displayNewListForm, updateList, addProjectTab, getCurrentProject, setCurrentProject, displayNewProjectForm, removeProjectTab, closeForm, addProjectToStorage} from './dom.js';
 
 // Initialize the inital project
 let newProject = project('Default Project');
@@ -19,6 +19,7 @@ function submit(project) {
             document.getElementById("itempriority").value));
 
     updateList(document.getElementById("listwrap"), project.getList());
+    localStorage.setItem(project.name, JSON.stringify(project.getList()));
     closeForm();
 }
 
@@ -53,6 +54,7 @@ function openProjectForm() {
                                 document.getElementById("projectdescription").value);
         newProject.addList(todoList("List"));
         addProjectTab(newProject);
+        addProjectToStorage(newProject);
         closeForm();
     });
     formWrapper.appendChild(submitButton);
@@ -79,8 +81,14 @@ let remove = document.createElement("button");
 remove.textContent = "Remove project";
 remove.addEventListener("click", () => {
     if (getCurrentProject() !== null) {
-        removeProjectTab(getCurrentProject());
-        setCurrentProject(null);
+        if (JSON.parse(localStorage.getItem("projects")).length > 1) {
+            console.log(getCurrentProject());
+            removeProjectTab(getCurrentProject());
+            setCurrentProject(null);
+        }
+        else {
+            alert("You can't remove your only project!");
+        }
     }
     else {
         alert("Please select a project before removing.");
@@ -95,7 +103,31 @@ newProjectButton.addEventListener("click", () => {
         openProjectForm();
 });
 
+//localStorage.clear();
+
+if (localStorage.getItem("projects") === null) {
+    console.log("Local storage null. Adding default project");
+    let projects = [];
+    projects.push(newProject);
+    localStorage.setItem("projects", JSON.stringify(projects));
+    localStorage.setItem(`${newProject.name}`, JSON.stringify(newProject.getList()));
+}
+
+let firstProject;
+let projects = JSON.parse(localStorage.getItem("projects"));
+projects.forEach((item) => {
+    let loaded = project(item.name, item.description);
+    let loadedList = JSON.parse(localStorage.getItem(item.name));
+    loaded.addList(todoList(loadedList.name, loadedList.description, loadedList.items));
+    addProjectTab(loaded);
+    firstProject = loaded;
+});
+
+displayProject(firstProject);
+setCurrentProject(firstProject);
+
 // Display the default project
-addProjectTab(newProject);
-displayProject(newProject);
-setCurrentProject(newProject);
+// addProjectTab(newProject);
+// displayProject(newProject);
+// setCurrentProject(newProject);
+

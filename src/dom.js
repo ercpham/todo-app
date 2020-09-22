@@ -6,7 +6,8 @@
 let currentProject = null;
 function setCurrentProject(project) {
     currentProject = project;
-    document.getElementById(`tab_${project.name}`).classList.add("selected");
+    if (project !== null)
+        document.getElementById(`tab_${project.name}`).classList.add("selected");
 }
 function getCurrentProject() {
     return currentProject;
@@ -46,6 +47,8 @@ function displayProject(project) {
     listWrapper.appendChild(bullets);
 
     listContent.prepend(listWrapper);
+
+    updateList(listWrapper, list);
 }
 
 /**
@@ -77,6 +80,14 @@ function addProjectTab(project) {
         updateList(document.getElementById("listwrap"), project.getList());
     })
     projectDiv.prepend(newTab);
+
+}
+
+function addProjectToStorage(project) {
+    let projects = JSON.parse(localStorage.getItem("projects"));
+    projects.push(project);
+    localStorage.setItem("projects", JSON.stringify(projects));
+    localStorage.setItem(`${project.name}`, JSON.stringify(project.getList()));
 }
 
 /**
@@ -97,6 +108,15 @@ function removeProjectTab(project) {
     while (listWrapper.firstChild) {
         listWrapper.removeChild(listWrapper.lastChild);
     }
+
+    let projects = JSON.parse(localStorage.getItem("projects"));
+    projects.forEach(item => {
+        if (item.name == project.name) {
+            projects.splice(projects.indexOf(item), 1);
+        }
+    })
+    localStorage.setItem("projects", JSON.stringify(projects));
+    localStorage.removeItem(`${project.name}`);
 }
 
 /**
@@ -146,6 +166,7 @@ function toggleCompletion(container, item) {
         item.complete = true;
         container.style.textDecoration = "line-through";
     }
+    localStorage.setItem(currentProject.name, JSON.stringify(currentProject.getList()));
     return false;
 }
 
@@ -173,6 +194,7 @@ function displayItemInfo(container, item) {
         removeButton.classList.add("removebutton");
         removeButton.addEventListener("click", () => {
             currentProject.getList().removeItem(item.name);
+            localStorage.setItem(currentProject.name, JSON.stringify(currentProject.getList()));
             container.remove();
         });
         container.appendChild(removeButton);
@@ -248,4 +270,4 @@ function closeForm() {
 
 export {displayProject, displayNewListForm, updateList,
      addProjectTab, setCurrentProject, getCurrentProject, displayNewProjectForm,
-    removeProjectTab, closeForm};
+    removeProjectTab, closeForm, addProjectToStorage};

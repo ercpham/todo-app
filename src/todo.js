@@ -27,8 +27,8 @@ const project = (name, description = "") => {
  * @param {string} name 
  * @param {string} description 
  */
-const todoList = (name, description = "") => {
-    let items = [];
+const todoList = (name, description = "", items = []) => {
+    // let items = [];
     function addItem(item) {
         items.push(item);
     }
@@ -58,7 +58,7 @@ const todoList = (name, description = "") => {
  * @param {string} priority 
  * @param {boolean} complete 
  */
-const todoItem = (name, description = "", duedate = "", priority = 0, complete = false) => {
+const todoItem = (name, description = "", duedate = "", priority = "", complete = false) => {
     return {name, description, duedate, priority, complete};
 }
 
